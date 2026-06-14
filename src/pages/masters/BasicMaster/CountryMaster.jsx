@@ -7,7 +7,7 @@ const emptyCountry = { name: "", language: "", capital: "", continent: "" };
 const CONTINENTS = ["Asia", "Europe", "North America", "South America", "Africa", "Australia", "Antarctica"];
 
 export default function CountryMaster() {
-  const [view, setView] = useState("ADD");
+  const [view, setView] = useState("LIST");
   const [form, setForm] = useState(emptyCountry);
   const [errors, setErrors] = useState({});
   const [rows, setRows] = useState([

@@ -7,7 +7,7 @@ const emptyTax = { name: "", value: "", cgst: "", sgst: "", igst: "" };
 
 
 export default function TaxMaster() {
-  const [view, setView] = useState("ADD");
+  const [view, setView] = useState("LIST");
   const [form, setForm] = useState(emptyTax);
   const [errors, setErrors] = useState({});
   const [rows, setRows] = useState([

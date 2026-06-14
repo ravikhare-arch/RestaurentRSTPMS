@@ -5,7 +5,7 @@ import { TopBar, DataTable, Toast, AddBtn } from "../../../../src/services/Share
 const emptyCity = { country: "", state: "", city: "" };
 
 export default function CityMaster() {
-  const [view, setView] = useState("ADD");
+  const [view, setView] = useState("LIST");
   const [form, setForm] = useState(emptyCity);
   const [errors, setErrors] = useState({});
   const [rows, setRows] = useState([

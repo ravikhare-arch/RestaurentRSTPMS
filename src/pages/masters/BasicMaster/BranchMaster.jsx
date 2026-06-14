@@ -7,7 +7,7 @@ const emptyBranch = { joiningDate: "", branchCode: "BRC-0005", branchName: "", c
 const COMPANIES = ["Hotel Premier Inn", "Grand Palace Hotels", "Sunrise Resorts"];
 
 export default function BranchMaster() {
-  const [view, setView] = useState("ADD");
+  const [view, setView] = useState("LIST");
   const [form, setForm] = useState(emptyBranch);
   const [errors, setErrors] = useState({});
   const [rows, setRows] = useState([

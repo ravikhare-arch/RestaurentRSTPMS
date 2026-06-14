@@ -27,18 +27,33 @@ import { C, glassCard, Field, Input, inputStyle } from "./DesignTokens";
 
 // ─── TOPBAR COMPONENT ────────────────────────────────────────────────────────
 export function TopBar({ title, view, setView }) {
+  const isFormView = view === "ADD";
+
   return (
-    <div style={{ ...glassCard, borderRadius: "16px 16px 0 0", padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 0, borderBottom: `1px solid ${C.border}` }}>
-      <div style={{ display: "flex", gap: 8 }}>
-        {["ADD", "LIST"].map(v => (
-          <button key={v} onClick={() => setView(v)} style={{ background: view === v ? C.terra : "rgba(255,255,255,0.5)", color: view === v ? "#fff" : C.textMid, border: `1px solid ${view === v ? C.terra : C.border}`, borderRadius: 8, padding: "6px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s", boxShadow: view === v ? `0 2px 8px ${C.terra}44` : "none" }}>{v}</button>
-        ))}
+    <div style={{ padding: "4px 0 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+      <div>
+        <div style={{ fontSize: 20, fontWeight: 700, color: C.text }}>{title}</div>
+        <div style={{ fontSize: 12, color: C.textLight, marginTop: 4 }}>
+          {isFormView ? `Enter ${title.toLowerCase()} details` : `Manage ${title.toLowerCase()} records`}
+        </div>
       </div>
-      <span style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{title}</span>
-      <div style={{ display: "flex", gap: 8 }}>
-        <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.6)", border: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 15 }}>🔗</div>
-        <div style={{ width: 32, height: 32, borderRadius: "50%", background: C.amber, border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 15 }}>−</div>
-      </div>
+      <button
+        type="button"
+        onClick={() => setView(isFormView ? "LIST" : "ADD")}
+        style={{
+          background: isFormView ? "rgba(255,255,255,0.72)" : C.terra,
+          color: isFormView ? C.textMid : C.white,
+          border: `1px solid ${isFormView ? C.border : C.terra}`,
+          borderRadius: 9,
+          padding: "9px 18px",
+          fontSize: 13,
+          fontWeight: 700,
+          cursor: "pointer",
+          boxShadow: isFormView ? "none" : `0 3px 10px ${C.terra}44`,
+        }}
+      >
+        {isFormView ? "Back to List" : "+ Add New"}
+      </button>
     </div>
   );
 }
@@ -56,12 +71,12 @@ export function DataTable({ columns, rows, onEdit, onDelete }) {
     columns.some(c => String(r[c.key] || "").toLowerCase().includes(search.toLowerCase()))
   );
 
-  // const sorted = sortKey
-  //   ? [...filtered].sort((a, b) => {
-  //       const va = String(a[sortKey] || ""), vb = String(b[sortKey] || ")
-  //       return sortDir === "asc" ? va.localeCompare(vb) : vb.localeCompare(va);
-  //     })
-  //   : filtered;
+  const sorted = sortKey
+    ? [...filtered].sort((a, b) => {
+        const va = String(a[sortKey] || ""), vb = String(b[sortKey] || "")
+        return sortDir === "asc" ? va.localeCompare(vb) : vb.localeCompare(va);
+      })
+    : filtered;
 
   const totalPages = Math.max(1, Math.ceil(sorted.length / perPage));
   const paginated = sorted.slice((page - 1) * perPage, page * perPage);
