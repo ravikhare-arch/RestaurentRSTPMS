@@ -29,6 +29,9 @@ export const PERMISSIONS = {
   WAITER_MASTER_VIEW: 'waitermaster.view',
   POS_ORDER_SCREEN_VIEW: 'posorderscreen.view',
   WELCOME_VIEW: 'welcome.view',
+  COMPANY_REPORT_VIEW: 'companyreport.view',
+  USER_REPORT_VIEW: 'userreport.view',
+  ATTENDANCE_REPORT_VIEW: 'attendancereport.view',
 }
 
 export const ALL_PERMISSIONS = Object.values(PERMISSIONS)

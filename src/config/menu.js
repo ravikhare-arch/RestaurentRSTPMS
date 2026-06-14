@@ -34,4 +34,13 @@ export const MENU_ITEMS = [
     ]
   },
   { path: '/users', label: 'User Master', icon: 'ti-users', permission: PERMISSIONS.USER_VIEW },
+  {
+    label: 'Reports',
+    icon: 'ti-report',
+    children: [
+      { path: '/reports/companies', label: 'Company Report', icon: 'ti-building', permission: PERMISSIONS.COMPANY_REPORT_VIEW },
+      { path: '/reports/users', label: 'User Report', icon: 'ti-users', permission: PERMISSIONS.USER_REPORT_VIEW },
+      { path: '/reports/attendance', label: 'Attendance Report', icon: 'ti-calendar-stats', permission: PERMISSIONS.ATTENDANCE_REPORT_VIEW },
+    ],
+  },
 ]

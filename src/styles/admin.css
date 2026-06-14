@@ -7,7 +7,7 @@
 }
 
 .admin-sidebar {
-  width: 220px;
+  width: 260px;
   min-height: 100vh;
   background: linear-gradient(180deg, #2d1008 0%, #4a1e0c 60%, #6b2f16 100%);
   display: flex;
@@ -59,9 +59,14 @@
   text-transform: uppercase;
 }
 
-.admin-sidebar__nav { flex: 1; padding: 0.75rem 0; }
+.admin-sidebar__nav {
+  flex: 1;
+  padding: 0.75rem 0;
+  overflow-y: auto;
+}
 
-.admin-sidebar__link {
+.admin-sidebar__link,
+.admin-sidebar__group-title {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -71,21 +76,75 @@
   font-size: 13px;
   border-left: 3px solid transparent;
   transition: all 0.15s;
+  min-height: 38px;
+  box-sizing: border-box;
 }
 
-.admin-sidebar.collapsed .admin-sidebar__link {
+.admin-sidebar__group {
+  margin: 1px 0;
+}
+
+.admin-sidebar__group-title {
+  cursor: pointer;
+  list-style: none;
+}
+
+.admin-sidebar__group-title::-webkit-details-marker {
+  display: none;
+}
+
+.admin-sidebar__group-title span,
+.admin-sidebar__link span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-sidebar.collapsed .admin-sidebar__link,
+.admin-sidebar.collapsed .admin-sidebar__group-title {
   justify-content: center;
   padding: 9px 0;
 }
 
 .admin-sidebar__link:hover,
-.admin-sidebar__link.active {
+.admin-sidebar__link.active,
+.admin-sidebar__group-title:hover,
+.admin-sidebar__group-title.active {
   background: rgba(255,255,255,0.12);
   color: #fff;
   border-left-color: #e8926a;
 }
 
-.admin-sidebar__link.active i { color: #e8926a; }
+.admin-sidebar__link.active i,
+.admin-sidebar__group-title.active i {
+  color: #e8926a;
+}
+
+.admin-sidebar__group-list {
+  padding: 3px 0 5px;
+}
+
+.admin-sidebar__link.depth-1,
+.admin-sidebar__group.depth-1 > .admin-sidebar__group-title {
+  padding-left: 2rem;
+  font-size: 12.5px;
+}
+
+.admin-sidebar__link.depth-2 {
+  padding-left: 3rem;
+  font-size: 12px;
+}
+
+.admin-sidebar__chevron {
+  margin-left: auto;
+  font-size: 12px;
+  transition: transform 0.15s ease;
+}
+
+.admin-sidebar__group[open] > .admin-sidebar__group-title .admin-sidebar__chevron {
+  transform: rotate(180deg);
+}
 
 .admin-sidebar__footer {
   padding: 0.75rem;

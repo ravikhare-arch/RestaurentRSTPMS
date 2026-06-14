@@ -34,18 +34,43 @@ const seedData = () => ({
     { id: '19', code: 'user.create', name: 'Create User', module: 'User', description: 'Add user' },
     { id: '20', code: 'user.edit', name: 'Edit User', module: 'User', description: 'Update user' },
     { id: '21', code: 'user.delete', name: 'Delete User', module: 'User', description: 'Remove user' },
+    { id: '22', code: 'companyreport.view', name: 'View Company Report', module: 'Reports', description: 'Access company report' },
+    { id: '23', code: 'userreport.view', name: 'View User Report', module: 'Reports', description: 'Access user report' },
+    { id: '24', code: 'attendancereport.view', name: 'View Attendance Report', module: 'Reports', description: 'Access attendance report' },
   ],
   roleMappings: [
     { id: '1', roleId: '1', claimIds: ALL_PERMISSIONS },
     {
       id: '2',
       roleId: '2',
-      claimIds: ['dashboard.view', 'company.view', 'company.create', 'company.edit', 'role.view', 'user.view', 'user.create', 'user.edit', 'rolemapping.view'],
+      claimIds: [
+        'dashboard.view',
+        'company.view',
+        'company.create',
+        'company.edit',
+        'role.view',
+        'user.view',
+        'user.create',
+        'user.edit',
+        'rolemapping.view',
+        'companyreport.view',
+        'userreport.view',
+        'attendancereport.view',
+      ],
     },
     {
       id: '3',
       roleId: '3',
-      claimIds: ['dashboard.view', 'company.view', 'role.view', 'user.view', 'roleclaim.view', 'rolemapping.view'],
+      claimIds: [
+        'dashboard.view',
+        'company.view',
+        'role.view',
+        'user.view',
+        'roleclaim.view',
+        'rolemapping.view',
+        'companyreport.view',
+        'userreport.view',
+      ],
     },
   ],
   users: [
@@ -62,11 +87,38 @@ const loadStore = () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
     return data
   }
-  return JSON.parse(raw)
+  return normalizeStore(JSON.parse(raw))
 }
 
 const saveStore = (data) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+}
+
+const normalizeStore = (store) => {
+  const seed = seedData()
+  let changed = false
+
+  const existingClaimCodes = new Set((store.roleClaims || []).map((claim) => claim.code))
+  const missingClaims = seed.roleClaims.filter((claim) => !existingClaimCodes.has(claim.code))
+
+  if (missingClaims.length > 0) {
+    store.roleClaims = [...(store.roleClaims || []), ...missingClaims]
+    changed = true
+  }
+
+  const adminMapping = store.roleMappings?.find((mapping) => mapping.roleId === '1')
+  if (adminMapping) {
+    const assignedClaims = new Set(adminMapping.claimIds || [])
+    const missingAdminClaims = ALL_PERMISSIONS.filter((claim) => !assignedClaims.has(claim))
+
+    if (missingAdminClaims.length > 0) {
+      adminMapping.claimIds = [...(adminMapping.claimIds || []), ...missingAdminClaims]
+      changed = true
+    }
+  }
+
+  if (changed) saveStore(store)
+  return store
 }
 
 const delay = (ms = 300) => new Promise((resolve) => setTimeout(resolve, ms))

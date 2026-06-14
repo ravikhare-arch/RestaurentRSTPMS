@@ -30,6 +30,9 @@ import TableMaster from '../pages/masters/masteruser/TableMaster'
 import WaiterMaster from '../pages/masters/masteruser/WaiterMaster'
 import POSOrderScreen from '../pages/masters/POSOrderScreen/POSOrderScreen'
 import Welcome from '../pages/masters/POSOrderScreen/WelCome'
+import CompanyReport from '../pages/reports/CompanyReport'
+import UserReport from '../pages/reports/UserReport'
+import AttendanceReport from '../pages/reports/AttendanceReport'
 import { PERMISSIONS } from '../config/permissions'
 
 const AppRoutes = () => (
@@ -104,6 +107,16 @@ const AppRoutes = () => (
         </Route>
         <Route element={<PermissionRoute permission={PERMISSIONS.WELCOME_VIEW} />}>
           <Route path="/masters/welcome" element={<Welcome />} />
+        </Route>
+
+        <Route element={<PermissionRoute permission={PERMISSIONS.COMPANY_REPORT_VIEW} />}>
+          <Route path="/reports/companies" element={<CompanyReport />} />
+        </Route>
+        <Route element={<PermissionRoute permission={PERMISSIONS.USER_REPORT_VIEW} />}>
+          <Route path="/reports/users" element={<UserReport />} />
+        </Route>
+        <Route element={<PermissionRoute permission={PERMISSIONS.ATTENDANCE_REPORT_VIEW} />}>
+          <Route path="/reports/attendance" element={<AttendanceReport />} />
         </Route>
       </Route>
     </Route>
